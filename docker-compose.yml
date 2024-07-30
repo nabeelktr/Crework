@@ -11,8 +11,8 @@ services:
 
   api-gateway:
     build:
-      context: .
-      dockerfile: ./backend/apps/api-gateway/Dockerfile
+      context: ./backend
+      dockerfile: ./apps/api-gateway/Dockerfile
       target: development
     command: npm run start:dev api-gateway
     env_file:
@@ -21,8 +21,8 @@ services:
       - task-service
       - auth-service
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "3001:3001"
     networks:
@@ -30,8 +30,8 @@ services:
 
   task-service:
     build:
-      context: .
-      dockerfile: ./backend/apps/task-service/Dockerfile
+      context: ./backend
+      dockerfile: ./apps/task-service/Dockerfile
       target: development
     command: npm run start:dev task-service
     env_file:
@@ -44,8 +44,8 @@ services:
       - auth-service
       - redis
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "3002:3002"
     networks:
@@ -53,8 +53,8 @@ services:
 
   auth-service:
     build:
-      context: .
-      dockerfile: ./backend/apps/auth/Dockerfile
+      context: ./backend
+      dockerfile: ./apps/auth/Dockerfile
       target: development
     command: npm run start:dev auth
     ports:
@@ -67,8 +67,8 @@ services:
       - mongodb-arbiter
       - rabbitmq
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     networks:
       - my-network
 

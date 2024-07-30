@@ -1,9 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CreateTaskRequest } from "./dto/create-task.request";
 import { TaskRepository } from "./task.repository";
 import { Redis } from "ioredis";
 import { AUTH_SERVICE } from "@app/common/auth/services";
 import { ClientProxy } from "@nestjs/microservices";
+import { request } from "express";
 
 @Injectable()
 export class TaskServiceService {
@@ -18,19 +19,28 @@ export class TaskServiceService {
     await this.redis.set(task._id, JSON.stringify(task), "EX", 3600);
   }
 
-  async getTasks() {
-    return this.taskRepository.find({});
+  async getTasks(userId: string) {
+    return this.taskRepository.find({ userId });
   }
 
   async updateTasks(taskId: string, updateData: Partial<CreateTaskRequest>) {
+    const task = await this.taskRepository.findById(taskId);
+
+    if (task.userId !== updateData?.userId) {
+      throw new UnauthorizedException('User not authorized to update this task');
+    }
+
     await this.redis.del(taskId);
     return this.taskRepository.findByIdAndUpdate(taskId, updateData);
   }
 
-  async deleteTask(taskId: string) {
-    await this.taskRepository.deleteById(taskId);
+  async deleteTask(taskId: string, userId: string) {
+    const task = await this.taskRepository.findById(taskId);
+    if (task.userId !== userId) {
+      throw new UnauthorizedException('User not authorized to delete this task');
+    }
     await this.redis.del(taskId);
-    return { success: "Task deleted successfully" };
+    return this.taskRepository.deleteById(taskId);
   }
 
   async getTask(taskId: string) {
@@ -43,7 +53,4 @@ export class TaskServiceService {
     return task;
   }
 
-  async listUsers(){
-    return this.authClient.send("list_users", {})
-  }
 }

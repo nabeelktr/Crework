@@ -15,22 +15,22 @@ export class TaskServiceController {
   }
 
   @Get()
-  async getTasks() {
-    return this.taskServiceService.getTasks();
+  @UseGuards(JwtAuthGuard)
+  async getTasks(@GetUserId() userId: string) {
+    return this.taskServiceService.getTasks(userId);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async updateTasks(@Body() request: CreateTaskRequest, @Param("id") taskId: string,) {
-    return this.taskServiceService.updateTasks(taskId, request);
+  async updateTasks(@Body() request: CreateTaskRequest, @Param("id") taskId: string, @GetUserId() userId: string) {
+    return this.taskServiceService.updateTasks(taskId, {...request, userId});
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async deleteTask(@Param("id") taskId: string){
-    return this.taskServiceService.deleteTask(taskId);
+  async deleteTask(@Param("id") taskId: string, @GetUserId() userId: string){
+    return this.taskServiceService.deleteTask(taskId, userId);
   }
-
 
   @Get('view/:id')
   @UseGuards(JwtAuthGuard)
@@ -38,8 +38,4 @@ export class TaskServiceController {
     return this.taskServiceService.getTask(taskId);
   }
 
-  @Get("users")
-  async getUser(){ 
-    return this.taskServiceService.listUsers();
-  }
 }
