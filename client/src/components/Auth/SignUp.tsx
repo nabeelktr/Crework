@@ -26,8 +26,8 @@ export default function SignUp({ setRoute }: any) {
   const formik = useFormik({
     initialValues: { email: "", password: "", name: "" },
     validationSchema: AuthSchema,
-    onSubmit: async ({ email, password }) => {
-      await register({ email, password }).unwrap();
+    onSubmit: async ({ email, password, name }) => {
+      await register({ email, password, name }).unwrap();
     },
   });
 

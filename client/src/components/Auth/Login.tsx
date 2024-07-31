@@ -1,14 +1,14 @@
 "use client"
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import {AuthSchema} from "../../utils/yup"
+import { LoginSchema} from "../../utils/yup"
 import { useFormik } from "formik";
 import { styles } from "../../styles/style";
 import { useLoginMutation } from "../../../redux/features/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedIn } from "../../../redux/features/auth/authSlice";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useRouter } from "next/navigation";
 
 
 export default function Login({ setRoute, setOpen }: any) {
@@ -16,16 +16,17 @@ export default function Login({ setRoute, setOpen }: any) {
   const [login, {isSuccess, isError}] = useLoginMutation();
   const isLoggedIn = useSelector((state:any) => state.auth.isLoggedIn)
   const dispatch = useDispatch();
+  const router = useRouter()
+
   useEffect(() => {
-    if (isLoggedIn) {
-      setOpen(false);
+    if(isLoggedIn){
+      router.push("/dashboard")
     }
-  }, [ isLoggedIn]);
+  }, [isLoggedIn])
+
   useEffect(() => {
     if(isSuccess){
-      dispatch(userLoggedIn());
       toast.success("Login success");
-      setOpen(false);
     }
     if(isError){
       toast.error("Invalid Credentials")
@@ -33,10 +34,11 @@ export default function Login({ setRoute, setOpen }: any) {
   }, [isSuccess, isError])
   const formik = useFormik({
     initialValues: { email: "", password: "" },
-    validationSchema: AuthSchema,
+    validationSchema: LoginSchema,
     onSubmit: async ({ email, password }) => {
       try {
         const response = await login({ email, password }).unwrap();
+        dispatch(userLoggedIn(response));
          if (response.error) {
           toast.error("inavlid credintials");
         }

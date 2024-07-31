@@ -12,6 +12,7 @@ import { BsExclamationDiamond } from "react-icons/bs";
 import { CiCalendar } from "react-icons/ci";
 import { GoPencil, GoPlus } from "react-icons/go";
 import { format } from "date-fns";
+import { useDrawer } from "@/contexts/DrawerContext";
 
 
 type TaskFormData = {
@@ -28,6 +29,7 @@ type Props = {
 
 const AddTaskForm: React.FC<Props> = ({status}) => {
   const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn);
+  const { setDrawerOpen} = useDrawer()
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -49,6 +51,7 @@ const AddTaskForm: React.FC<Props> = ({status}) => {
   const onSubmit = async (data: TaskFormData) => {
     if (isLoggedIn) {
       await addTask({ ...data });
+      setDrawerOpen("")
       socketId.emit("tasks", { data: "task added" });
     }
   };

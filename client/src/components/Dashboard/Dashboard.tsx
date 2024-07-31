@@ -24,7 +24,8 @@ const Dashboard = (props: Props) => {
     isSuccess,
     isLoading: getTasksLoad,
     refetch,
-  } = useGetTasksQuery({});
+  } = useGetTasksQuery({}, {refetchOnMountOrArgChange: true});
+
   const [updateTask, { isSuccess: isTaskUpdated, isError, isLoading }] =
     useUpdateTaskMutation();
   const [ready, setReady] = useState(false);

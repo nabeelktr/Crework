@@ -15,20 +15,10 @@ type Props = {
 };
 
 const DroppableColumn = ({ droppableId, tasks, title, setAdd }: Props) => {
-  // const filteredTasks = tasks.filter(
-  //   (task: any) => task.status === droppableId
-  // );
-  const filteredTasks = [
-    {
-      _id: "1",
-      status: "To do",
-      title: "Implement User Authentication",
-      description: "Develop and integrate user authentication using email and password.",
-      dueDate: "2024-08-15",
-      createdAt: "2024-07-15",
-      priority: "Urgent"
-    }
-  ]
+  const filteredTasks = tasks.filter(
+    (task: any) => task.status === droppableId
+  );
+
   const {isDrawerOpen, setDrawerOpen} = useDrawer()
   return (
     <>

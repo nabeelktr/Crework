@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import { BiHomeAlt2 } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
 import { FiChevronsRight, FiLoader } from "react-icons/fi";
@@ -7,10 +8,21 @@ import { LuBellDot, LuUsers2 } from "react-icons/lu";
 import { MdOutlineAnalytics } from "react-icons/md";
 import CreateButton from "../Task/CreateButton";
 import { TfiDownload } from "react-icons/tfi";
+import { useLogOutMutation } from "../../../redux/features/auth/authApi";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const SideBar = (props: Props) => {
+  const [logoutUser, {isSuccess}] = useLogOutMutation()
+  const user = useSelector((state: any) => state.auth.userName)
+
+  useEffect(() => {
+    if(isSuccess){
+      toast.success("Logout successful")
+    }
+  }, [isSuccess])
   return (
     <div className="px-4 py-6 flex flex-col h-screen justify-between">
       <div>
@@ -22,7 +34,7 @@ const SideBar = (props: Props) => {
               className="h-8 rounded-xl"
             />
             <p className="text-xl flex items-center tracking-wide">
-              Joe Gardner
+              {user}
             </p>
           </div>
           <div className="flex justify-between items-center">
@@ -43,7 +55,7 @@ const SideBar = (props: Props) => {
                 style={{ strokeWidth: 1.5 }}
               />
             </div>
-            <button className="bg-[#F4F4F4] tracking-wide px-3 py-2 rounded-md text-[#797979] hover:bg-gray-200 ">
+            <button className="bg-[#F4F4F4] tracking-wide px-3 py-2 rounded-md text-[#797979] hover:bg-gray-200 " onClick={(async () =>await logoutUser({}))}>
               Logout
             </button>
           </div>

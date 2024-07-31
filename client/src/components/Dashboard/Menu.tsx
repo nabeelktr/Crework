@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import card1 from "../../../public/assets/card1.png";
@@ -10,15 +11,17 @@ import { BsStar, BsStars } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 import CreateButton from "../Task/CreateButton";
 import Dashboard from "./Dashboard";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const Menu = (props: Props) => {
+  const user = useSelector((state: any) => state.auth.userName)
   return (
     <div className="pl-4 pt-6 pr-10">
       <div className="flex justify-between items-center">
         <p className="text-5xl tracking-wide font-[500] font-Barlow">
-          Good morning, Joe!
+          Good morning, {user}!
         </p>
         <p className="text-md font-Barlow flex items-center gap-1 text-[#080808]">
           Help & feedback <AiOutlineQuestionCircle />

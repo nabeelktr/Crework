@@ -7,6 +7,7 @@ import { useDeleteTaskMutation } from "../../redux/features/apiSlice";
 import CustomModal from "@/utils/Modal/CustomModal";
 import EditTaskForm from "./Task/EditTaskForm";
 import { socketId } from "../utils/socket";
+import { format } from "date-fns";
 
 type Data = {
   _id: string;
@@ -62,7 +63,7 @@ const CardItem = ({ index, data }: Props) => {
         <div className="flex space-x-2 items-center mt-4">
           <span className="flex space-x-2 items-center text-sm text-[#606060] font-[500]">
             <ClockIcon className="w-6 h-6 " strokeWidth={1.5} />
-            <span>{data?.dueDate}</span>
+            <span>{new Date(data?.dueDate).toLocaleDateString()}</span>
           </span>
         </div>
         <div className="flex justify-between mt-1">
