@@ -14,14 +14,25 @@ import Dashboard from "./Dashboard";
 import { useSelector } from "react-redux";
 
 type Props = {};
+const getGreeting = () => {
+  const currentHour = new Date().getHours();
+  if (currentHour < 12) {
+    return 'Good morning';
+  } else if (currentHour < 18) {
+    return 'Good afternoon';
+  } else {
+    return 'Good evening';
+  }
+};
 
 const Menu = (props: Props) => {
+  const greeting = getGreeting();
   const user = useSelector((state: any) => state.auth.userName)
   return (
     <div className="pl-4 pt-6 pr-10">
       <div className="flex justify-between items-center">
         <p className="text-5xl tracking-wide font-[500] font-Barlow">
-          Good morning, {user}!
+          {greeting}, {user}!
         </p>
         <p className="text-md font-Barlow flex items-center gap-1 text-[#080808]">
           Help & feedback <AiOutlineQuestionCircle />
