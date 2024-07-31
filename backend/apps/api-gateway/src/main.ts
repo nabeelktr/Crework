@@ -15,7 +15,7 @@ async function bootstrap() {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.enableCors({
-    origin: [configService.get('ALLOWED_ORIGIN1'), configService.get('ALLOWED_ORIGIN2')], 
+    origin: [configService.get('ALLOWED_ORIGIN1'), configService.get('ALLOWED_ORIGIN2'), configService.get('ALLOWED_ORIGIN3')], 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

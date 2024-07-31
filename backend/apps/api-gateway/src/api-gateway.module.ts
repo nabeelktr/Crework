@@ -12,6 +12,7 @@ import * as Joi from "joi";
       PORT: Joi.number().required(),
       ALLOWED_ORIGIN1: Joi.string().required(),
       ALLOWED_ORIGIN2: Joi.string(),
+      ALLOWED_ORIGIN3: Joi.string(),
     }),
     envFilePath: "./apps/api-gateway/.env"
   })],
