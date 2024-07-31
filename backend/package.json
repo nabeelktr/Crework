@@ -30,7 +30,6 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "postbuild": "mkdir -p dist/apps/public && cp apps/api-gateway/public/swagger.json dist/apps/public/swagger.json",
     "build": " nest build",
     "rimraf": "./node_modules/rimraf/bin.js",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
