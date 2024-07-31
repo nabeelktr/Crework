@@ -3,7 +3,6 @@
 .gitignore
 .dockerignore
 
-# Build dependencies
 dist.do
 node_modules
 
