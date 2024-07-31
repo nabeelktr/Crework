@@ -3,8 +3,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-      target: developement
-    command: npm run dev
+      target: production
     depends_on:
       - api-gateway
       - task-service
