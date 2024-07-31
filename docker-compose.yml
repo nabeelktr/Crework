@@ -3,7 +3,14 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-      target: production
+      target: developement
+    command: npm run dev
+    depends_on:
+      - api-gateway
+      - task-service
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "80:80"
     networks:

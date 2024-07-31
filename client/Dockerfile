@@ -1,3 +1,9 @@
+FROM node:alpine as developement
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+
 FROM node:alpine as build
 WORKDIR /usr/src/app
 COPY package*.json ./
